@@ -26,6 +26,16 @@ object HelloSlick extends App {
       suppliers += (150, "The High Ground", "100 Coffee Lane", "Meadows", "CA", "93966")
     )
 
+    val transactionAction = for {
+      _ <- suppliers += (101, "Acme, Inc.", "99 Market Street", "Groundsville", "CA", "95199")
+      _ <- coffees ++= Seq (
+        ("Colombian",         101, 7.99, 0, 0),
+        ("French_Roast",       49, 8.99, 0, 0),
+        ("Espresso",          150, 9.99, 0, 0),
+      )
+    } yield ()
+    db.run(transactionAction.transactionally)
+
     val setupFuture: Future[Unit] = db.run(setupAction)
     val f = setupFuture.flatMap { _ =>
 
