@@ -35,3 +35,13 @@ class Coffees(tag: Tag)
   def supplier: ForeignKeyQuery[Suppliers, (Int, String, String, String, String, String)] = 
     foreignKey("SUP_FK", supID, TableQuery[Suppliers])(_.id)
 }
+
+class Users(tag: Tag)
+  extends Table[(Int, String, Int)](tag, "users") {
+
+  def id: Rep[Int] = column[Int]("id", O.PrimaryKey)
+  def name: Rep[String] = column[String]("id")
+  def age: Rep[Int] = column[Int]("age")
+
+  def * = (id, name, age)
+}
