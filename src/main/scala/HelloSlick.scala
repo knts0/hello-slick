@@ -58,6 +58,9 @@ object HelloSlick extends App {
       val allSuppliersAction: DBIO[Seq[(Int, String, String, String, String, String)]] =
         suppliers.result
 
+      val filterBySuppliersAction: DBIO[Seq[(Int, String, String, String, String, String)]] =
+        suppliers.filterOpt(Some("Acme, Inc."))((table, name) => table.name === name).result
+
       val combinedAction: DBIO[Seq[(Int, String, String, String, String, String)]] =
         insertAndPrintAction >> allSuppliersAction
 
